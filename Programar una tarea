@@ -1,0 +1,37 @@
+# Obtén la fecha y hora actual
+$fechaHora = Get-Date -Format "yyyy-MM-dd HH:mm:ss"
+
+# Obtén la lista de procesos que consumen más de 25 MB de memoria virtual
+$procesosMemoriaVirtual = Get-Process | Where-Object { $_.VirtualMemorySize -gt 25MB }
+
+# Obtén la lista de procesos cuya zona de memoria establecida para trabajar sea mayor a 50 MB
+$procesosZonaMemoria = Get-Process | Where-Object { $_.WorkingSet -gt 50MB }
+
+# Obtén la lista de procesos que consumen más del 5% de la CPU
+$procesosCPU = Get-Process | Where-Object { $_.CPU -gt 5 }
+
+# Contar el número de procesos en ejecución
+$numeroProcesos = (Get-Process).Count
+
+# Crear el contenido para el archivo infoProcess.dat
+$contenido = @"
+$fechaHora
+
+Procesos con más de 25 MB de memoria virtual:
+$procesosMemoriaVirtual
+
+Procesos cuya zona de memoria es mayor a 50 MB:
+$procesosZonaMemoria
+
+Procesos que consumen más del 5% de la CPU:
+$procesosCPU
+
+Número de procesos en ejecución: $numeroProcesos
+"@
+
+# Ruta completa del archivo infoProcess.dat
+$rutaArchivo = "C:\Logs\infoProcess.dat"
+
+# Agregar el contenido al archivo (si el archivo no existe, se creará)
+$contenido | Out-File -FilePath $rutaArchivo -Append
+
