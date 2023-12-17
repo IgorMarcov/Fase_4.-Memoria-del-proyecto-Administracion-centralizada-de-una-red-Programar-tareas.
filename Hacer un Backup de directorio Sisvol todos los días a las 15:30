@@ -1,0 +1,2 @@
+Copy-Item -Path C:\Windows\Sysvol -Destination "E:\copiaSysvol" -Recurse -Force
+SCHTASKS /Create /TN "BackupSysvol" /TR "powershell.exe -File C:\Escritorio\BackupSysvol.ps1" /SC DAILY /ST 15:30
